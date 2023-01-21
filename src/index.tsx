@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import 'reflect-metadata';
+import { App } from './app';
+import { InjectionProvider } from './core/providers/Injection';
+import { ValidationProvider } from './core/providers/Validation';
+import { container } from './ioc';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <InjectionProvider container={container}>
+      <ValidationProvider>
+        <App />
+      </ValidationProvider>
+    </InjectionProvider>
   </React.StrictMode>
 );
 
