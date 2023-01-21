@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
-import { useInjection } from '../../core/providers/Injection';
-import { LoginRegisterPresenter } from './LoginRegisterPresenter';
+import { useInjection } from '../../core/providers/injection';
+import { LoginRegisterPresenter } from './login-register.presenter';
 
 export const Logout = observer((props) => {
   const presenter = useInjection(LoginRegisterPresenter);

@@ -2,10 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'reflect-metadata';
 import { App } from './app';
-import { InjectionProvider } from './core/providers/Injection';
-import { ValidationProvider } from './core/providers/Validation';
+import { InjectionProvider } from './core/providers/injection';
+import { ValidationProvider } from './core/providers/validation';
 import { container } from './ioc';
 import reportWebVitals from './reportWebVitals';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

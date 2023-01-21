@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { makeObservable, computed } from 'mobx';
-import { MessagesRepository } from './core/messages/MessagesRepository';
-import { Router } from './routing/Router';
+import { MessagesRepository } from './core/messages/messages.repo';
+import { Router } from './routing/router';
 
 @injectable()
 export class AppPresenter {

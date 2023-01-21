@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.5",
     "inversify": "^6.0.1",
     "leaflet": "^1.9.3",
     "mobx": "^6.7.0",
@@ -29,13 +34,21 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.3",
+    "rimraf": "^4.1.1",
     "typescript": "^4.9.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "clean": "prettier --write \"./src/**/*.{ts,tsx}\""
+    "rimraf": "./node_modules/rimraf/bin.js",
+    "clean": "rimraf build/",
+    "cleanCode": "prettier --write \"./src/**/*.{ts,tsx}\"",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "lintFix": "eslint src/**/*.{ts,tsx} --fix",
+    "instrument": "npx nyc instrument --compact=false src instrumented",
+    "report": "npx nyc report --reporter=text-summary",
+    "coverage": "npx nyc npm run test"
   },
   "eslintConfig": {
     "extends": [

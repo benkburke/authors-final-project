@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
-import { useInjection } from '../../core/providers/Injection';
-import { Router } from '../../routing/Router';
-import { Logout } from '../authentication/LogoutComponent';
-import { NavigationPresenter } from './NavigationPresenter';
+import { useInjection } from '../../core/providers/injection';
+import { Router } from '../../routing/router';
+import { Logout } from '../authentication/logout.component';
+import { NavigationPresenter } from './navigation.presenter';
 
 export const Navigation = observer((props) => {
   const presenter = useInjection(NavigationPresenter);

@@ -1,11 +1,13 @@
 import React from 'react';
 
 const ValidationContext = React.createContext({
-  clientValidationMessages: [''],
-  updateClientValidationMessages: (messages: []) => {}
-});
+  clientValidationMessages: [],
+  updateClientValidationMessages: () => {
+    return;
+  }
+} as { clientValidationMessages: string[]; updateClientValidationMessages: (messages: string[]) => void });
 
-export const ValidationProvider = (props) => {
+export const ValidationProvider = (props: { children: React.ReactNode }) => {
   const [clientValidationMessages, updateClientValidationMessages] = React.useState<string[]>([]);
 
   return (
@@ -18,5 +20,5 @@ export const ValidationProvider = (props) => {
 export function useValidation() {
   const { clientValidationMessages, updateClientValidationMessages } = React.useContext(ValidationContext);
 
-  return [clientValidationMessages, updateClientValidationMessages];
+  return { clientValidationMessages, updateClientValidationMessages };
 }

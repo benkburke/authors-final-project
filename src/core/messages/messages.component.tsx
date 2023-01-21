@@ -1,16 +1,16 @@
 import { observer } from 'mobx-react';
-import { useInjection } from '../providers/Injection';
-import { useValidation } from '../providers/Validation';
-import { MessagesPresenter } from './MessagesPresenter';
+import { useInjection } from '../providers/injection';
+import { useValidation } from '../providers/validation';
+import { MessagesPresenter } from './messages.presenter';
 
-export const Messages = observer((props) => {
+export const Messages = observer(() => {
   const presenter = useInjection(MessagesPresenter);
-  let [uiMessages] = useValidation();
+  const { clientValidationMessages } = useValidation();
 
   return (
     <>
-      {props.presenter.messages &&
-        props.presenter.messages.map((item, i) => {
+      {presenter.messages &&
+        presenter.messages.map((item, i) => {
           return (
             <div style={{ backgroundColor: 'red' }} key={i}>
               {' - '}
@@ -18,8 +18,8 @@ export const Messages = observer((props) => {
             </div>
           );
         })}
-      {uiMessages &&
-        uiMessages.map((item, i) => {
+      {clientValidationMessages &&
+        clientValidationMessages.map((item, i) => {
           return (
             <div style={{ backgroundColor: 'orange' }} key={i}>
               {' - '}

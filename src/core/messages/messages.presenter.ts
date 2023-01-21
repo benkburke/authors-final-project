@@ -1,13 +1,13 @@
 import { injectable, inject } from 'inversify';
 import { makeObservable, observable, action, computed } from 'mobx';
-import { MessagesRepository } from './MessagesRepository';
+import { MessagesRepository } from './messages.repo';
 
 @injectable()
-export class MessagesPresenter {
+export abstract class MessagesPresenter {
   @inject(MessagesRepository)
-  messagesRepository;
+  messagesRepository: MessagesRepository;
 
-  showValidationWarning = null;
+  showValidationWarning: boolean | null = null;
 
   get messages() {
     return this.messagesRepository.appMessages;
@@ -30,4 +30,6 @@ export class MessagesPresenter {
     this.showValidationWarning = !pm.success;
     this.messagesRepository.appMessages = pm.success ? [userMessage] : [pm.serverMessage];
   };
+
+  abstract reset: () => void;
 }

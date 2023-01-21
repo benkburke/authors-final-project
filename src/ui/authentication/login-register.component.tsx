@@ -1,10 +1,12 @@
 import { observer } from 'mobx-react';
-import { Messages } from '../../core/messages/MessagesComponent';
-import { useInjection } from '../../core/providers/Injection';
-import { LoginRegisterPresenter } from './LoginRegisterPresenter';
+import { Messages } from '../../core/messages/messages.component';
+import { useInjection } from '../../core/providers/injection';
+import { LoginRegisterPresenter } from './login-register.presenter';
 
 export const LoginRegister = observer((props) => {
   const presenter = useInjection(LoginRegisterPresenter);
+
+  const formValid = () => true;
 
   return (
     <div className="login-register">
@@ -64,15 +66,20 @@ export const LoginRegister = observer((props) => {
           onSubmit={(event) => {
             event.preventDefault();
             if (formValid()) {
-              if (presenter.option === 'login') presenter.login();
-              if (presenter.option === 'register') presenter.register();
+              if (presenter.option === 'login') {
+                presenter.login();
+              }
+
+              if (presenter.option === 'register') {
+                presenter.register();
+              }
             }
           }}
         >
           <div className="w3-col s4 w3-center">
             <input
               type="text"
-              value={presenter.email}
+              value={presenter.email ?? ''}
               placeholder="Email"
               onChange={(event) => {
                 presenter.email = event.target.value;
@@ -83,7 +90,7 @@ export const LoginRegister = observer((props) => {
             {' '}
             <input
               type="text"
-              value={presenter.password}
+              value={presenter.password ?? ''}
               placeholder="Password"
               onChange={(event) => {
                 presenter.password = event.target.value;
@@ -91,7 +98,7 @@ export const LoginRegister = observer((props) => {
             />
           </div>
           <div className="w3-col s4 w3-center">
-            <input type="submit" className="lr-submit" value={presenter.option} />
+            <input type="submit" className="lr-submit" value={presenter.option ?? ''} />
           </div>
 
           <br />

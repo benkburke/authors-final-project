@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const InversifyProvider: React.FC<Props> = (props) => {
+export const InjectionProvider: React.FC<Props> = (props) => {
   return (
     <InversifyContext.Provider value={{ container: props.container }}>
       {props.children}

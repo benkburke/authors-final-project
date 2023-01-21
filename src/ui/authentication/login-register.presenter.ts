@@ -1,8 +1,8 @@
 import { injectable, inject } from 'inversify';
 import { makeObservable, observable, action } from 'mobx';
-import { AuthenticationRepository } from './AuthenticationRepository';
-import { MessagesPresenter } from '../../core/messages/MessagesPresenter';
-import { Router } from '../../routing/Router';
+import { AuthenticationRepository } from './authentication.repo';
+import { MessagesPresenter } from '../../core/messages/messages.presenter';
+import { Router } from '../../routing/router';
 
 @injectable()
 export class LoginRegisterPresenter extends MessagesPresenter {
@@ -12,9 +12,9 @@ export class LoginRegisterPresenter extends MessagesPresenter {
   @inject(Router)
   router;
 
-  email = null;
-  password = null;
-  option = null;
+  email: string | null = null;
+  password: string | null = null;
+  option: string | null = null;
 
   constructor() {
     super();
@@ -37,23 +37,23 @@ export class LoginRegisterPresenter extends MessagesPresenter {
   };
 
   login = async () => {
-    let loginPm = await this.authenticationRepository.login(this.email, this.password);
+    const loginPm = await this.authenticationRepository.login(this.email, this.password);
 
     this.unpackRepositoryPmToVm(loginPm, 'User logged in');
 
     if (loginPm.success) {
-      this.router.goToId('homeLink');
+      this.router.goToId('appHome');
     }
   };
 
   register = async () => {
-    let registerPm = await this.authenticationRepository.register(this.email, this.password);
+    const registerPm = await this.authenticationRepository.register(this.email, this.password);
 
     this.unpackRepositoryPmToVm(registerPm, 'User registered');
   };
 
   logOut = async () => {
     this.authenticationRepository.logOut();
-    this.router.goToId('loginLink');
+    this.router.goToId('login');
   };
 }

@@ -1,19 +1,20 @@
 import { inject, injectable } from 'inversify';
 import { makeObservable, computed, action } from 'mobx';
-import { MessagesRepository } from '../core/messages/MessagesRepository';
-import { RouterRepository } from './RouterRepository';
-import { UserModel } from '../ui/authentication/UserModel';
+import { MessagesRepository } from '../core/messages/messages.repo';
+import { RouterRepository } from './router.repo';
+import { UserModel } from '../ui/authentication/user.model';
+import { NavigateOptions } from 'navigo';
 
 @injectable()
 export class Router {
   @inject(RouterRepository)
-  routerRepository;
+  routerRepository: RouterRepository;
 
   @inject(UserModel)
-  userModel;
+  userModel: UserModel;
 
   @inject(MessagesRepository)
-  messagesRepository;
+  messagesRepository: MessagesRepository;
 
   get currentRoute() {
     return this.routerRepository.currentRoute;
@@ -26,9 +27,9 @@ export class Router {
     });
   }
 
-  updateCurrentRoute = async (newRouteId, params, query) => {
-    let oldRoute = this.routerRepository.findRoute(this.currentRoute.routeId);
-    let newRoute = this.routerRepository.findRoute(newRouteId);
+  updateCurrentRoute = async (newRouteId: string, params?: string, query?: Record<string, unknown>) => {
+    const oldRoute = this.routerRepository.findRoute(this.currentRoute.routeId);
+    const newRoute = this.routerRepository.findRoute(newRouteId);
     const hasToken = !!this.userModel.token;
     const routeChanged = oldRoute.routeId !== newRoute.routeId;
     const protectedOrUnauthenticatedRoute =
@@ -37,13 +38,21 @@ export class Router {
       (newRoute.routeDef.isSecure && hasToken === true) || newRoute.routeDef.isSecure === false;
 
     if (routeChanged) {
-      this.routerRepository.onRouteChanged();
+      if (this.routerRepository.onRouteChanged) {
+        this.routerRepository.onRouteChanged();
+      }
 
       if (protectedOrUnauthenticatedRoute) {
-        this.routerRepository.goToId('loginLink');
+        this.routerRepository.goToId('login');
       } else if (publicOrAuthenticatedRoute) {
-        if (oldRoute.onLeave) oldRoute.onLeave();
-        if (newRoute.onEnter) newRoute.onEnter();
+        if (oldRoute.onLeave) {
+          oldRoute.onLeave();
+        }
+
+        if (newRoute.onEnter) {
+          newRoute.onEnter();
+        }
+
         this.routerRepository.currentRoute.routeId = newRoute.routeId;
         this.routerRepository.currentRoute.routeDef = newRoute.routeDef;
         this.routerRepository.currentRoute.params = params;
@@ -52,11 +61,11 @@ export class Router {
     }
   };
 
-  registerRoutes = (onRouteChange) => {
+  registerRoutes = (onRouteChange: () => void) => {
     this.routerRepository.registerRoutes(this.updateCurrentRoute, onRouteChange);
   };
 
-  goToId = async (routeId, params?, query?) => {
-    this.routerRepository.goToId(routeId);
+  goToId = async (routeId: string, data?: Record<string, unknown>, options?: NavigateOptions) => {
+    this.routerRepository.goToId(routeId, data, options);
   };
 }

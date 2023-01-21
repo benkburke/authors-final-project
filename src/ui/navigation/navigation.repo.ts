@@ -1,21 +1,20 @@
 import { inject, injectable } from 'inversify';
 import { action, computed, makeObservable } from 'mobx';
 import TreeModel from 'tree-model';
-import { AuthenticationRepository } from '../authentication/AuthenticationRepository';
-import { Router } from '../../routing/Router';
+import { Router } from '../../routing/router';
+import { AuthenticationRepository } from '../authentication/authentication.repo';
 
 @injectable()
 export class NavigationRepository {
   @inject(AuthenticationRepository)
-  authenticationRepository;
+  authenticationRepository: AuthenticationRepository;
 
   @inject(Router)
-  router;
+  router: Router;
 
   get currentNode() {
-    var self = this;
-    return this.getTree().all(function (node) {
-      return node.model.id === self.router.currentRoute.routeId;
+    return this.getTree().all((node) => {
+      return node.model.id === this.router.currentRoute.routeId;
     })[0];
   }
 
@@ -27,9 +26,9 @@ export class NavigationRepository {
   }
 
   getTree() {
-    let tree = new TreeModel();
+    const tree = new TreeModel();
 
-    let root = tree.parse({
+    const root = tree.parse({
       id: 'homeLink',
       type: 'root',
       text: 'Home',
@@ -40,7 +39,7 @@ export class NavigationRepository {
   }
 
   back = () => {
-    let currentNode = this.currentNode;
+    const currentNode = this.currentNode;
     this.router.goToId(currentNode.parent.model.id);
   };
 }

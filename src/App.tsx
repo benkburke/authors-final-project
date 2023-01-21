@@ -1,17 +1,12 @@
-import * as React from 'react';
 import { observer } from 'mobx-react';
-import { useInjection } from './core/providers/Injection';
 import { AppPresenter } from './app.presenter';
-import { Navigation } from './ui/navigation/NavigationComponent';
-import { Home } from './ui/home/HomeComponent';
-import { LoginRegister } from './ui/authentication/LoginRegisterComponent';
-import { MessagesRepository } from './core/messages/MessagesRepository';
+import { useInjection } from './core/providers/injection';
+import { LoginRegister } from './ui/authentication/login-register.component';
+import { Home } from './ui/home/home.component';
+import { Navigation } from './ui/navigation/navigation.component';
 
-export const App = observer((props) => {
+export const App = observer(() => {
   const presenter = useInjection(AppPresenter);
-  const messagesRepository = useInjection(MessagesRepository);
-
-  React.useEffect(() => {}, []);
 
   const renderedComponents = [
     {

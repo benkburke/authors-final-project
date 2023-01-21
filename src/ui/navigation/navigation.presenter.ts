@@ -1,25 +1,35 @@
 import { inject, injectable } from 'inversify';
 import { computed, makeObservable } from 'mobx';
-import { NavigationRepository } from './NavigationRepository';
-import { RouterRepository } from '../../routing/RouterRepository';
+import { RouterRepository } from '../../routing/router.repo';
+import { NavigationRepository } from './navigation.repo';
+
+interface VM {
+  showBack: boolean;
+  currentSelectedVisibleName: string;
+  currentSelectedBackTarget: {
+    visible: boolean;
+    id: null;
+  };
+  menuItems: { id: string; visibleName: string }[];
+}
 
 @injectable()
 export class NavigationPresenter {
   @inject(NavigationRepository)
-  navigationRepository;
+  navigationRepository: NavigationRepository;
 
   @inject(RouterRepository)
-  routerRepository;
+  routerRepository: RouterRepository;
 
   get viewModel() {
-    const vm = {
+    const vm: VM = {
       showBack: false,
       currentSelectedVisibleName: '',
       currentSelectedBackTarget: { visible: false, id: null },
       menuItems: []
     };
 
-    let currentNode = this.navigationRepository.currentNode;
+    const currentNode = this.navigationRepository.currentNode;
 
     if (currentNode) {
       vm.currentSelectedVisibleName = this.visibleName(currentNode);

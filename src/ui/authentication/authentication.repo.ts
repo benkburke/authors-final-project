@@ -1,20 +1,20 @@
-import { injectable, inject } from 'inversify';
-import { makeObservable, action } from 'mobx';
-import { Types } from '../../core/Types';
-import { Router } from '../../Routing/Router';
-import { UserModel } from './UserModel';
-import { MessagePacking } from '../../core/messages/MessagePacking';
+import { HttpGateway } from 'core/http.gateway';
+import { inject, injectable } from 'inversify';
+import { action, makeObservable } from 'mobx';
+import { MessagePacking } from '../../core/messages/message-packing';
+import { Router } from '../../routing/router';
+import { UserModel } from './user.model';
 
 @injectable()
 export class AuthenticationRepository {
   @inject(Router)
-  router;
+  router: Router;
 
-  @inject(Types.IDataGateway)
-  dataGateway;
+  @inject(HttpGateway)
+  dataGateway: HttpGateway;
 
   @inject(UserModel)
-  userModel;
+  userModel: UserModel;
 
   constructor() {
     makeObservable(this, {
