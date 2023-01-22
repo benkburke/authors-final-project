@@ -18,6 +18,7 @@ export const Messages = observer(() => {
             </div>
           );
         })}
+
       {clientValidationMessages &&
         clientValidationMessages.map((item, i) => {
           return (

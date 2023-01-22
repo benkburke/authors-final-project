@@ -1,12 +1,28 @@
+import { Messages } from 'core/messages/messages.component';
+import { useInjection } from 'core/providers/injection';
+import { useValidation } from 'core/providers/validation';
 import { observer } from 'mobx-react';
-import { Messages } from '../../core/messages/messages.component';
-import { useInjection } from '../../core/providers/injection';
 import { LoginRegisterPresenter } from './login-register.presenter';
 
-export const LoginRegister = observer((props) => {
+export const LoginRegister = observer(() => {
   const presenter = useInjection(LoginRegisterPresenter);
+  const { updateClientValidationMessages } = useValidation();
 
-  const formValid = () => true;
+  const formValid = () => {
+    const clientValidationMessages: string[] = [];
+
+    if (presenter.email === '') {
+      clientValidationMessages.push('No email');
+    }
+
+    if (presenter.password === '') {
+      clientValidationMessages.push('No password');
+    }
+
+    updateClientValidationMessages(clientValidationMessages);
+
+    return clientValidationMessages.length === 0;
+  };
 
   return (
     <div className="login-register">
@@ -14,6 +30,7 @@ export const LoginRegister = observer((props) => {
         <div className="w3-col s4 w3-center">
           <br />
         </div>
+
         <div className="w3-col s4 w3-center logo">
           <img
             alt="logo"
@@ -21,14 +38,17 @@ export const LoginRegister = observer((props) => {
             src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/2147767979/settings_images/iE7LayVvSHeoYcZWO4Dq_web-logo-pink-light-bg3x.png"
           />
         </div>
+
         <div className="w3-col s4 w3-center">
           <br />
         </div>
       </div>
+
       <div className="w3-row">
         <div className="w3-col s4 w3-center">
           <br />
         </div>
+
         <div className="w3-col s4 w3-center option">
           <input
             className="lr-submit"
@@ -39,6 +59,7 @@ export const LoginRegister = observer((props) => {
               presenter.option = 'login';
             }}
           />
+
           <input
             className="lr-submit"
             style={{ backgroundColor: '#2E91FC' }}
@@ -49,10 +70,12 @@ export const LoginRegister = observer((props) => {
             }}
           />
         </div>
+
         <div className="w3-col s4 w3-center">
           <br />
         </div>
       </div>
+
       <div
         className="w3-row"
         style={{
@@ -65,6 +88,7 @@ export const LoginRegister = observer((props) => {
           className="login"
           onSubmit={(event) => {
             event.preventDefault();
+
             if (formValid()) {
               if (presenter.option === 'login') {
                 presenter.login();
@@ -86,8 +110,8 @@ export const LoginRegister = observer((props) => {
               }}
             />
           </div>
+
           <div className="w3-col s4 w3-center">
-            {' '}
             <input
               type="text"
               value={presenter.password ?? ''}
@@ -97,15 +121,17 @@ export const LoginRegister = observer((props) => {
               }}
             />
           </div>
+
           <div className="w3-col s4 w3-center">
             <input type="submit" className="lr-submit" value={presenter.option ?? ''} />
           </div>
 
-          <br />
-          <br />
-          <br />
+          <div className="w3-col s4 w3-center">
+            <br />
+          </div>
         </form>
       </div>
+
       <Messages />
     </div>
   );

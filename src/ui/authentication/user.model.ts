@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { makeObservable, observable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 @injectable()
 export class UserModel {
@@ -7,9 +7,6 @@ export class UserModel {
   token: string | null = null;
 
   constructor() {
-    makeObservable(this, {
-      email: observable,
-      token: observable
-    });
+    makeAutoObservable(this);
   }
 }

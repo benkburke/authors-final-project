@@ -15,8 +15,8 @@ export abstract class MessagesPresenter {
 
   constructor() {
     makeObservable(this, {
-      showValidationWarning: observable,
       messages: computed,
+      showValidationWarning: observable,
       unpackRepositoryPmToVm: action
     });
   }

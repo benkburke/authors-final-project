@@ -1,6 +1,6 @@
+import 'reflect-metadata';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'reflect-metadata';
 import { App } from './app';
 import { InjectionProvider } from './core/providers/injection';
 import { ValidationProvider } from './core/providers/validation';

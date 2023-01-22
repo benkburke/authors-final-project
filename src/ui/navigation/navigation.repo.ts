@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { action, computed, makeObservable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import TreeModel from 'tree-model';
 import { Router } from '../../routing/router';
 import { AuthenticationRepository } from '../authentication/authentication.repo';
@@ -19,10 +19,7 @@ export class NavigationRepository {
   }
 
   constructor() {
-    makeObservable(this, {
-      currentNode: computed,
-      back: action
-    });
+    makeAutoObservable(this);
   }
 
   getTree() {

@@ -1,6 +1,6 @@
 import { HttpGateway } from 'core/http.gateway';
 import { inject, injectable } from 'inversify';
-import { action, makeObservable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { MessagePacking } from '../../core/messages/message-packing';
 import { Router } from '../../routing/router';
 import { UserModel } from './user.model';
@@ -17,9 +17,7 @@ export class AuthenticationRepository {
   userModel: UserModel;
 
   constructor() {
-    makeObservable(this, {
-      login: action
-    });
+    makeAutoObservable(this);
   }
 
   login = async (email, password) => {

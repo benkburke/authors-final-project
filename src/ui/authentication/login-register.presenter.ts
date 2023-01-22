@@ -1,32 +1,35 @@
-import { injectable, inject } from 'inversify';
-import { makeObservable, observable, action } from 'mobx';
+import { MessagesPresenter } from 'core/messages/messages.presenter';
+import { inject, injectable } from 'inversify';
+import { action, makeObservable, observable } from 'mobx';
+import { Router } from 'routing/router';
 import { AuthenticationRepository } from './authentication.repo';
-import { MessagesPresenter } from '../../core/messages/messages.presenter';
-import { Router } from '../../routing/router';
 
 @injectable()
 export class LoginRegisterPresenter extends MessagesPresenter {
   @inject(AuthenticationRepository)
-  authenticationRepository;
+  authenticationRepository: AuthenticationRepository;
 
   @inject(Router)
-  router;
+  router: Router;
 
   email: string | null = null;
+
   password: string | null = null;
   option: string | null = null;
 
   constructor() {
     super();
+
     makeObservable(this, {
       email: observable,
-      password: observable,
       option: observable,
-      reset: action,
+      password: observable,
+      logOut: action,
       login: action,
       register: action,
-      logOut: action
+      reset: action
     });
+
     this.init();
   }
 

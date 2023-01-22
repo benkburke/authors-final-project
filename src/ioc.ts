@@ -1,10 +1,11 @@
+import { HttpGateway } from 'core/http.gateway';
+import { MessagesRepository } from 'core/messages/messages.repo';
 import { Container } from 'inversify';
-import { HttpGateway } from './core/http.gateway';
-import { MessagesRepository } from './core/messages/messages.repo';
-import { RouterGateway } from './routing/router.gateway';
-import { RouterRepository } from './routing/router.repo';
-import { UserModel } from './ui/authentication/user.model';
-import { NavigationRepository } from './ui/navigation/navigation.repo';
+import { RouterGateway } from 'routing/router.gateway';
+import { RouterRepository } from 'routing/router.repo';
+import { LoginRegisterPresenter } from 'ui/authentication/login-register.presenter';
+import { UserModel } from 'ui/authentication/user.model';
+import { NavigationRepository } from 'ui/navigation/navigation.repo';
 
 export class IOC {
   container: Container;
@@ -17,9 +18,15 @@ export class IOC {
   }
 
   buildBaseTemplate = () => {
+    // repos
     this.container.bind(MessagesRepository).to(MessagesRepository).inSingletonScope();
     this.container.bind(RouterRepository).to(RouterRepository).inSingletonScope();
     this.container.bind(NavigationRepository).to(NavigationRepository).inSingletonScope();
+
+    // presenters
+    this.container.bind(LoginRegisterPresenter).to(LoginRegisterPresenter).inSingletonScope();
+
+    // models
     this.container.bind(UserModel).to(UserModel).inSingletonScope();
 
     return this.container;

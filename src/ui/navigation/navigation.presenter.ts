@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { computed, makeObservable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { RouterRepository } from '../../routing/router.repo';
 import { NavigationRepository } from './navigation.repo';
 
@@ -50,9 +50,7 @@ export class NavigationPresenter {
   }
 
   constructor() {
-    makeObservable(this, {
-      viewModel: computed
-    });
+    makeAutoObservable(this);
   }
 
   visibleName = (node) => {

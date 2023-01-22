@@ -1,7 +1,7 @@
+import { MessagesRepository } from 'core/messages/messages.repo';
 import { inject, injectable } from 'inversify';
-import { makeObservable, computed } from 'mobx';
-import { MessagesRepository } from './core/messages/messages.repo';
-import { Router } from './routing/router';
+import { computed, makeObservable } from 'mobx';
+import { Router } from 'routing/router';
 
 @injectable()
 export class AppPresenter {
@@ -26,6 +26,7 @@ export class AppPresenter {
       this.messagesRepository.appMessages = [];
       onRouteChange();
     };
+
     this.router.registerRoutes(onRouteChangeWrapper);
   };
 }
