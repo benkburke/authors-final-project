@@ -21,14 +21,14 @@ export const App = observer(() => {
 
   const renderedComponents = [
     {
-      id: 'appHome',
-      component: <Home key="appHome" />
+      id: 'appHomeLink',
+      component: <Home key="appHomeLink" />
     }
   ];
 
   return (
     <div className="container">
-      {presenter.currentRoute.routeId === 'login' ? (
+      {presenter.currentRoute.routeId === 'loginLink' ? (
         <LoginRegister />
       ) : (
         <div className="w3-row">

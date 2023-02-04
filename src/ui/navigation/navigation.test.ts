@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { RouterGateway } from 'routing/router.gateway';
 import { Router } from '../../routing/router';
 import { AppTestHarness } from '../../test-tools/app-test-harness';
@@ -6,17 +7,18 @@ import { NavigationPresenter } from './navigation.presenter';
 
 let appTestHarness: AppTestHarness | null = null;
 let navigationPresenter: NavigationPresenter | null = null;
-let router: Router | null = null;
-let routerGateway: RouterGateway | null = null;
 
 describe('navigation', () => {
   beforeEach(async () => {
     appTestHarness = new AppTestHarness();
     appTestHarness.init();
     appTestHarness.bootStrap(() => {});
+
     navigationPresenter = appTestHarness.container.get(NavigationPresenter);
-    router = appTestHarness.container.get(Router);
-    routerGateway = appTestHarness.container.get(RouterGateway);
+  });
+
+  it('should init appTestHarness', () => {
+    expect(appTestHarness).toBeInstanceOf(AppTestHarness);
   });
 
   describe('before login', () => {
@@ -27,9 +29,9 @@ describe('navigation', () => {
     });
   });
 
-  describe('login', () => {
-    beforeEach(async () => {
-      await appTestHarness!.setupLogin(GetSuccessfulRegistrationStub, 'login');
-    });
-  });
+  // describe('login', () => {
+  //   beforeEach(async () => {
+  //     await appTestHarness!.setupLogin(GetSuccessfulRegistrationStub);
+  //   });
+  // });
 });

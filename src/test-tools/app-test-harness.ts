@@ -42,7 +42,7 @@ export class AppTestHarness {
   }
 
   // 3. login or register to the app
-  setupLogin = async (loginStub, type) => {
+  setupLogin = async (loginStub) => {
     this.dataGateway = this.container.get(HttpGateway);
     this.dataGateway.get = jest.fn().mockImplementation((path) => {
       return Promise.resolve(SingleBooksResultStub());
@@ -54,7 +54,9 @@ export class AppTestHarness {
     this.loginRegisterPresenter = this.container.get(LoginRegisterPresenter);
     this.loginRegisterPresenter.email = 'a@b.com';
     this.loginRegisterPresenter.password = '123';
+
     await this.loginRegisterPresenter.login();
+
     return this.loginRegisterPresenter;
   };
 }

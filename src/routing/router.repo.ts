@@ -9,8 +9,8 @@ interface Route {
     path: string | null;
     isSecure: boolean;
   };
-  params?: string | null;
-  query?: Record<string, unknown> | null;
+  data?: Record<string, unknown> | null;
+  options?: NavigateOptions | null;
   onEnter?: () => void;
   onLeave?: () => void;
 }
@@ -18,13 +18,13 @@ interface Route {
 @injectable()
 export class RouterRepository {
   currentRoute: Route = {
+    data: null,
+    options: null,
     routeId: null,
     routeDef: {
       path: null,
       isSecure: false
-    },
-    params: null,
-    query: null
+    }
   };
 
   @inject(RouterGateway)
@@ -34,28 +34,28 @@ export class RouterRepository {
 
   routes: Route[] = [
     {
-      routeId: 'login',
-      routeDef: {
-        path: '/login',
-        isSecure: false
-      }
-    },
-    {
-      routeId: 'appHome',
+      routeId: 'appHomeLink',
       routeDef: {
         path: '/app/home',
         isSecure: true
       }
     },
     {
-      routeId: 'notFound',
+      routeId: 'loginLink',
+      routeDef: {
+        path: '/login',
+        isSecure: false
+      }
+    },
+    {
+      routeId: 'notFoundLink',
       routeDef: {
         path: '/not-found',
         isSecure: false
       }
     },
     {
-      routeId: 'default',
+      routeId: 'defaultLink',
       routeDef: {
         path: '*',
         isSecure: false
@@ -76,7 +76,11 @@ export class RouterRepository {
   }
 
   registerRoutes = (
-    updateCurrentRoute: (newRouteId: string, params: string, query: Record<string, unknown>) => void,
+    updateCurrentRoute: (
+      newRouteId: string,
+      data?: Record<string, unknown>,
+      options?: NavigateOptions
+    ) => void,
     onRouteChanged: () => void
   ) => {
     const routeConfig = {};
@@ -89,8 +93,8 @@ export class RouterRepository {
 
       routeConfig[path] = {
         as: routeArg.routeId,
-        uses: (match: { params: string; query: Record<string, unknown> }) => {
-          updateCurrentRoute(route.routeId ?? '', match.params, match.query);
+        uses: (match: { data?: Record<string, unknown>; options?: NavigateOptions }) => {
+          updateCurrentRoute(route.routeId ?? '', match.data, match.options);
         }
       };
     });

@@ -27,7 +27,11 @@ export class Router {
     });
   }
 
-  updateCurrentRoute = async (newRouteId: string, params?: string, query?: Record<string, unknown>) => {
+  updateCurrentRoute = async (
+    newRouteId: string,
+    data?: Record<string, unknown>,
+    options?: NavigateOptions
+  ) => {
     const oldRoute = this.routerRepository.findRoute(this.currentRoute.routeId);
     const newRoute = this.routerRepository.findRoute(newRouteId);
     const hasToken = !!this.userModel.token;
@@ -43,7 +47,7 @@ export class Router {
       }
 
       if (protectedOrUnauthenticatedRoute) {
-        this.routerRepository.goToId('login');
+        this.routerRepository.goToId('loginLink');
       } else if (publicOrAuthenticatedRoute) {
         if (oldRoute.onLeave) {
           oldRoute.onLeave();
@@ -55,8 +59,8 @@ export class Router {
 
         this.routerRepository.currentRoute.routeId = newRoute.routeId;
         this.routerRepository.currentRoute.routeDef = newRoute.routeDef;
-        this.routerRepository.currentRoute.params = params;
-        this.routerRepository.currentRoute.query = query;
+        this.routerRepository.currentRoute.data = data;
+        this.routerRepository.currentRoute.options = options;
       }
     }
   };
