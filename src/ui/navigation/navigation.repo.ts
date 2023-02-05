@@ -8,14 +8,14 @@ export class NavigationRepository {
   @inject(Router)
   router: Router;
 
+  constructor() {
+    makeAutoObservable(this);
+  }
+
   get currentNode() {
     return this.getTree().all((node) => {
       return node.model.id === this.router.currentRoute.routeId;
     })[0];
-  }
-
-  constructor() {
-    makeAutoObservable(this);
   }
 
   getTree() {

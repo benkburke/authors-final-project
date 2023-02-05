@@ -1,3 +1,4 @@
+import { User } from 'domain/entities/user.entity';
 import 'reflect-metadata';
 import { GetFailedRegistrationStub } from 'test-tools/stubs/get-failed-registration.stub';
 import { GetFailedUserLoginStub } from 'test-tools/stubs/get-failed-user-login.stub';
@@ -5,11 +6,10 @@ import { GetSuccessfulRegistrationStub } from 'test-tools/stubs/get-successful-r
 import { GetSuccessfulUserLoginStub } from 'test-tools/stubs/get-successful-user-login.stub';
 import { AppTestHarness } from '../../test-tools/app-test-harness';
 import { LoginRegisterPresenter } from './login-register.presenter';
-import { UserModel } from './user.model';
 
 let appTestHarness: AppTestHarness | null = null;
 let loginRegisterPresenter: LoginRegisterPresenter | null = null;
-let userModel: UserModel | null = null;
+let user: User | null = null;
 
 let onRouteChange: (() => void) | null = null;
 
@@ -18,7 +18,7 @@ describe('init', () => {
     appTestHarness = new AppTestHarness();
     appTestHarness.init();
 
-    userModel = appTestHarness.container.get(UserModel);
+    user = appTestHarness.container.get(User);
 
     onRouteChange = () => {};
   });
@@ -103,25 +103,25 @@ describe('init', () => {
       };
 
       it('should show successful user message on successful register', async () => {
-        if (!userModel || !loginRegisterPresenter) {
+        if (!user || !loginRegisterPresenter) {
           return;
         }
 
         await setupRegister(GetSuccessfulRegistrationStub);
-        expect(userModel.email).toBe(null);
-        expect(userModel.token).toBe(null);
+        expect(user.email).toBe(null);
+        expect(user.token).toBe(null);
         expect(loginRegisterPresenter.showValidationWarning).toBe(false);
         expect(loginRegisterPresenter.messages![0]).toBe('User registered');
       });
 
       it('should show failed server message on failed register', async () => {
-        if (!userModel || !loginRegisterPresenter) {
+        if (!user || !loginRegisterPresenter) {
           return;
         }
 
         await setupRegister(GetFailedRegistrationStub);
-        expect(userModel.email).toBe(null);
-        expect(userModel.token).toBe(null);
+        expect(user.email).toBe(null);
+        expect(user.token).toBe(null);
         expect(loginRegisterPresenter.showValidationWarning).toBe(true);
         expect(loginRegisterPresenter.messages![0]).toBe(
           'Failed: credentials not valid must be (email and >3 chars on password).'
@@ -139,7 +139,7 @@ describe('init', () => {
       });
 
       it('should go to appHomeLink on successful login (and populate userModel)', async () => {
-        if (!appTestHarness || !userModel) {
+        if (!appTestHarness || !user) {
           return;
         }
 
@@ -148,8 +148,8 @@ describe('init', () => {
           email: 'a@b.com',
           password: '123'
         });
-        expect(userModel.email).toBe('a@b.com');
-        expect(userModel.token).toBe('a@b1234.com');
+        expect(user.email).toBe('a@b.com');
+        expect(user.token).toBe('a@b1234.com');
         expect(appTestHarness.dataGateway.post).toHaveBeenCalledWith('/login', {
           email: 'a@b.com',
           password: '123'
@@ -189,13 +189,13 @@ describe('init', () => {
       });
 
       it('should show failed user message on failed login', async () => {
-        if (!appTestHarness || !userModel) {
+        if (!appTestHarness || !user) {
           return;
         }
 
         loginRegisterPresenter = await appTestHarness.setupLogin(GetFailedUserLoginStub);
-        expect(userModel.email).toBe(null);
-        expect(userModel.token).toBe(null);
+        expect(user.email).toBe(null);
+        expect(user.token).toBe(null);
         expect(loginRegisterPresenter.showValidationWarning).toBe(true);
         expect(loginRegisterPresenter.messages![0]).toBe('Failed: no user record.');
       });
@@ -215,17 +215,17 @@ describe('init', () => {
       });
 
       it('should logout', async () => {
-        if (!appTestHarness || !userModel) {
+        if (!appTestHarness || !user) {
           return;
         }
 
         loginRegisterPresenter = await appTestHarness.setupLogin(GetSuccessfulUserLoginStub);
 
-        expect(userModel.token).toBe('a@b1234.com');
+        expect(user.token).toBe('a@b1234.com');
 
         loginRegisterPresenter.logOut();
 
-        expect(userModel.token).toBe('');
+        expect(user.token).toBe('');
         expect(appTestHarness.routerGateway.goToId).toHaveBeenCalledWith('loginLink', undefined, undefined);
       });
     });

@@ -1,19 +1,22 @@
+import { MessagesPresenter } from 'core/messages/messages.presenter';
 import { inject, injectable } from 'inversify';
 import { computed, makeObservable } from 'mobx';
 import { BooksRepository } from './books.repo';
 
 @injectable()
-export class BooksPresenter {
+export class BooksPresenter extends MessagesPresenter {
   @inject(BooksRepository)
-  booksRepository: BooksRepository;
+  booksRepo: BooksRepository;
 
   newBookName: string | null = null;
 
   get viewModel() {
-    return this.booksRepository.messagePm;
+    return this.booksRepo.messagePm;
   }
 
   constructor() {
+    super();
+
     makeObservable(this, {
       viewModel: computed
     });

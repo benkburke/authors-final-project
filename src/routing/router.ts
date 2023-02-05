@@ -1,17 +1,17 @@
+import { User } from 'domain/entities/user.entity';
 import { inject, injectable } from 'inversify';
-import { makeObservable, computed, action } from 'mobx';
+import { action, computed, makeObservable } from 'mobx';
+import { NavigateOptions } from 'navigo';
 import { MessagesRepository } from '../core/messages/messages.repo';
 import { RouterRepository } from './router.repo';
-import { UserModel } from '../ui/authentication/user.model';
-import { NavigateOptions } from 'navigo';
 
 @injectable()
 export class Router {
   @inject(RouterRepository)
   routerRepository: RouterRepository;
 
-  @inject(UserModel)
-  userModel: UserModel;
+  @inject(User)
+  user: User;
 
   @inject(MessagesRepository)
   messagesRepository: MessagesRepository;
@@ -34,7 +34,7 @@ export class Router {
   ) => {
     const oldRoute = this.routerRepository.findRoute(this.currentRoute.routeId);
     const newRoute = this.routerRepository.findRoute(newRouteId);
-    const hasToken = !!this.userModel.token;
+    const hasToken = !!this.user.token;
     const routeChanged = oldRoute.routeId !== newRoute.routeId;
     const protectedOrUnauthenticatedRoute =
       (newRoute.routeDef.isSecure && hasToken === false) || newRoute.routeDef.path === '*';

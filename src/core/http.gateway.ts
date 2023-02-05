@@ -1,21 +1,21 @@
-import { injectable, inject } from 'inversify';
+import { User } from 'domain/entities/user.entity';
+import { inject, injectable } from 'inversify';
 import { Config } from './config';
-import { UserModel } from '../ui/authentication/user.model';
 
 @injectable()
 export class HttpGateway {
   @inject(Config)
   config: Config;
 
-  @inject(UserModel)
-  userModel: UserModel;
+  @inject(User)
+  user: User;
 
   get = async (path) => {
     const response = await fetch(this.config.apiUrl + path, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: this.userModel.token ?? ''
+        Authorization: this.user.token ?? ''
       }
     });
     const dto = response.json();
@@ -28,7 +28,7 @@ export class HttpGateway {
       body: JSON.stringify(requestDto),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: this.userModel.token ?? ''
+        Authorization: this.user.token ?? ''
       }
     });
     const dto = response.json();
@@ -40,7 +40,7 @@ export class HttpGateway {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: this.userModel.token ?? ''
+        Authorization: this.user.token ?? ''
       }
     });
     const dto = response.json();

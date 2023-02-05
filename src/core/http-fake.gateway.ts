@@ -1,5 +1,5 @@
+import { User } from 'domain/entities/user.entity';
 import { inject, injectable } from 'inversify';
-import { UserModel } from 'ui/authentication/user.model';
 import { Config } from './config';
 
 @injectable()
@@ -7,8 +7,8 @@ export class FakeHttpGateway {
   @inject(Config)
   config: Config;
 
-  @inject(UserModel)
-  userModel: UserModel;
+  @inject(User)
+  user: User;
 
   get = async (path) => {};
 

@@ -1,8 +1,8 @@
 import { Config } from 'core/config';
 import { HttpGateway } from 'core/http.gateway';
+import { User } from 'domain/entities/user.entity';
 import { inject, injectable } from 'inversify';
-import { makeObservable, observable } from 'mobx';
-import { UserModel } from '../authentication/user.model';
+import { makeAutoObservable } from 'mobx';
 
 @injectable()
 export class BooksRepository {
@@ -11,8 +11,8 @@ export class BooksRepository {
   @inject(HttpGateway)
   dataGateway: HttpGateway;
 
-  @inject(UserModel)
-  userModel: UserModel;
+  @inject(User)
+  user: User;
 
   @inject(Config)
   config: Config;
@@ -20,7 +20,7 @@ export class BooksRepository {
   messagePm = 'UNSET';
 
   constructor() {
-    makeObservable(this, { messagePm: observable });
+    makeAutoObservable(this);
   }
 
   load = () => {

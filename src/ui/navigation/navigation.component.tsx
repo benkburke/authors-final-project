@@ -4,7 +4,7 @@ import { Router } from '../../routing/router';
 import { Logout } from '../authentication/logout.component';
 import { NavigationPresenter } from './navigation.presenter';
 
-export const Navigation = observer((props) => {
+export const Navigation = observer(() => {
   const presenter = useInjection(NavigationPresenter);
   const router = useInjection(Router);
 

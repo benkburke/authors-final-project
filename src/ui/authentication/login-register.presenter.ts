@@ -13,7 +13,6 @@ export class LoginRegisterPresenter extends MessagesPresenter {
   router: Router;
 
   email: string | null = null;
-
   password: string | null = null;
   option: string | null = null;
 

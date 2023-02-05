@@ -1,5 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { makeAutoObservable } from 'mobx';
+import { Node } from 'tree-model/types';
 import { RouterRepository } from '../../routing/router.repo';
 import { NavigationRepository } from './navigation.repo';
 
@@ -20,6 +21,10 @@ export class NavigationPresenter {
 
   @inject(RouterRepository)
   routerRepository: RouterRepository;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
 
   get viewModel() {
     const vm: VM = {
@@ -49,11 +54,25 @@ export class NavigationPresenter {
     return vm;
   }
 
-  constructor() {
-    makeAutoObservable(this);
-  }
-
-  visibleName = (node) => {
+  visibleName = (
+    node: Node<
+      | { id: string; type: string; text: string; children?: undefined }
+      | {
+          id: string;
+          type: string;
+          text: string;
+          children: (
+            | { id: string; type: string; text: string; children?: undefined }
+            | {
+                id: string;
+                type: string;
+                text: string;
+                children: { id: string; type: string; text: string }[];
+              }
+          )[];
+        }
+    >
+  ) => {
     return node.model.text + ' > ' + node.model.id;
   };
 

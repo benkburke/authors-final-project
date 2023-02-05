@@ -1,9 +1,9 @@
 import { HttpGateway } from 'core/http.gateway';
+import { User } from 'domain/entities/user.entity';
 import { inject, injectable } from 'inversify';
 import { makeAutoObservable } from 'mobx';
 import { MessagePacking } from '../../core/messages/message-packing';
 import { Router } from '../../routing/router';
-import { UserModel } from './user.model';
 
 @injectable()
 export class AuthenticationRepository {
@@ -13,8 +13,8 @@ export class AuthenticationRepository {
   @inject(HttpGateway)
   dataGateway: HttpGateway;
 
-  @inject(UserModel)
-  userModel: UserModel;
+  @inject(User)
+  user: User;
 
   constructor() {
     makeAutoObservable(this);
@@ -27,8 +27,8 @@ export class AuthenticationRepository {
     });
 
     if (loginDto.success) {
-      this.userModel.email = email;
-      this.userModel.token = loginDto.result.token;
+      this.user.email = email;
+      this.user.token = loginDto.result.token;
     }
 
     return MessagePacking.unpackServerDtoToPm(loginDto);
@@ -44,7 +44,7 @@ export class AuthenticationRepository {
   };
 
   logOut = async () => {
-    this.userModel.email = '';
-    this.userModel.token = '';
+    this.user.email = '';
+    this.user.token = '';
   };
 }

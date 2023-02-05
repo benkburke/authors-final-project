@@ -1,10 +1,10 @@
 import { HttpGateway } from 'core/http.gateway';
 import { MessagesRepository } from 'core/messages/messages.repo';
+import { User } from 'domain/entities/user.entity';
 import { Container } from 'inversify';
 import { RouterGateway } from 'routing/router.gateway';
 import { RouterRepository } from 'routing/router.repo';
 import { LoginRegisterPresenter } from 'ui/authentication/login-register.presenter';
-import { UserModel } from 'ui/authentication/user.model';
 import { BooksRepository } from 'ui/books/books.repo';
 import { NavigationRepository } from 'ui/navigation/navigation.repo';
 
@@ -29,7 +29,7 @@ export class IOC {
     this.container.bind(LoginRegisterPresenter).to(LoginRegisterPresenter).inSingletonScope();
 
     // models
-    this.container.bind(UserModel).to(UserModel).inSingletonScope();
+    this.container.bind(User).to(User).inSingletonScope();
 
     return this.container;
   };
