@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { makeObservable, observable } from 'mobx';
 import { NavigateOptions } from 'navigo';
+import { BooksRepository } from 'ui/books/books.repo';
 import { RouterGateway } from './router.gateway';
 
 interface Route {
@@ -30,9 +31,19 @@ export class RouterRepository {
   @inject(RouterGateway)
   routerGateway: RouterGateway;
 
+  @inject(BooksRepository)
+  booksRepository: BooksRepository;
+
   onRouteChanged: (() => void) | null = null;
 
   routes: Route[] = [
+    {
+      routeId: 'loginLink',
+      routeDef: {
+        path: '/login',
+        isSecure: false
+      }
+    },
     {
       routeId: 'appHomeLink',
       routeDef: {
@@ -41,9 +52,43 @@ export class RouterRepository {
       }
     },
     {
-      routeId: 'loginLink',
+      routeId: 'appBooksLink',
       routeDef: {
-        path: '/login',
+        path: '/app/books',
+        isSecure: true
+      },
+      onEnter: () => {
+        this.booksRepository.load();
+      },
+      onLeave: () => {
+        this.booksRepository.reset();
+      }
+    },
+    {
+      routeId: 'appBooksAddLink',
+      routeDef: {
+        path: '/app/books/add',
+        isSecure: true
+      }
+    },
+    {
+      routeId: 'appAuthorsLink',
+      routeDef: {
+        path: '/app/authors',
+        isSecure: true
+      }
+    },
+    {
+      routeId: 'appAuthorsPolicyLink',
+      routeDef: {
+        path: '/app/authors/policy',
+        isSecure: false
+      }
+    },
+    {
+      routeId: 'appAuthorsMapLink',
+      routeDef: {
+        path: '/app/authors/map',
         isSecure: false
       }
     },

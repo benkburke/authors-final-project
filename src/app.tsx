@@ -3,6 +3,8 @@ import { useValidation } from 'core/providers/validation';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { LoginRegister } from 'ui/authentication/login-register.component';
+import { Authors } from 'ui/authors/authors.component';
+import { Books } from 'ui/books/books.component';
 import { Home } from 'ui/home/home.component';
 import { Navigation } from 'ui/navigation/navigation.component';
 import { AppPresenter } from './app.presenter';
@@ -23,6 +25,14 @@ export const App = observer(() => {
     {
       id: 'appHomeLink',
       component: <Home key="appHomeLink" />
+    },
+    {
+      id: 'appBooksLink',
+      component: <Books key="appBooksLink" />
+    },
+    {
+      id: 'appAuthorsLink',
+      component: <Authors key="appAuthorsLink" />
     }
   ];
 

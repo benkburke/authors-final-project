@@ -1,12 +1,8 @@
-import { HttpGateway } from 'core/http.gateway';
 import 'reflect-metadata';
-import { RouterGateway } from 'routing/router.gateway';
-import { GetFailedRegistrationStub } from 'test-tools/get-failed-registration.stub';
-import { GetFailedUserLoginStub } from 'test-tools/get-failed-user-login.stub';
-import { GetSuccessfulRegistrationStub } from 'test-tools/get-successful-registration.stub';
-import { GetSuccessfulUserLoginStub } from 'test-tools/get-successful-user-login.stub';
-import { Router } from '../../routing/router';
-import { RouterRepository } from '../../routing/router.repo';
+import { GetFailedRegistrationStub } from 'test-tools/stubs/get-failed-registration.stub';
+import { GetFailedUserLoginStub } from 'test-tools/stubs/get-failed-user-login.stub';
+import { GetSuccessfulRegistrationStub } from 'test-tools/stubs/get-successful-registration.stub';
+import { GetSuccessfulUserLoginStub } from 'test-tools/stubs/get-successful-user-login.stub';
 import { AppTestHarness } from '../../test-tools/app-test-harness';
 import { LoginRegisterPresenter } from './login-register.presenter';
 import { UserModel } from './user.model';

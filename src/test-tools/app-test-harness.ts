@@ -8,7 +8,7 @@ import { Router } from '../routing/router';
 import { FakeRouterGateway } from '../routing/router-fake.gateway';
 import { RouterRepository } from '../routing/router.repo';
 import { LoginRegisterPresenter } from '../ui/authentication/login-register.presenter';
-import { SingleBooksResultStub } from './single-books-result.stub';
+import { SingleBooksResultStub } from './stubs/single-books-result.stub';
 
 export class AppTestHarness {
   appPresenter: AppPresenter;
